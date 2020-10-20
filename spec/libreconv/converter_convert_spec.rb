@@ -10,6 +10,14 @@ RSpec.describe Libreconv::Converter do
       end
     end
 
+    it 'converts a pdf file to the specified target docx' do
+      create_tmpfile(['', '.docx']) do |target_file|
+        described_class.new(fixture_path('pdf.pdf'), target_file, nil, 'docx', 'writer_pdf_import').convert
+
+        expect(File.size?(target_file)).to be > 0
+      end
+    end
+
     Helpers::FILE_TYPES.each do |type|
       it "converts a #{type} to pdf" do
         Dir.mktmpdir do |target_path|
